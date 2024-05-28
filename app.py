@@ -3,13 +3,13 @@ from tkinter import *
 from scrape_genbank import fetch_genbank_data
 
 def on_entry_click(event):
-    if textbox.get() == "Enter your molecule":
+    if textbox.get() == "Enter your molecule's accession ID":
         textbox.delete(0, "end")
         textbox.configure(text_color='white')
 
 def on_focus_out(event):
     if textbox.get() == "":
-        textbox.insert(0, "Enter your molecule")
+        textbox.insert(0, "Enter your molecule's accession ID")
         textbox.configure(text_color='grey')
 
 def on_submit():
