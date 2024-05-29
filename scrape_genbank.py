@@ -29,10 +29,10 @@ def fetch_genbank_data(accession_id):
     driver.get(f'https://www.ncbi.nlm.nih.gov/nuccore/{accession_id}')
     time.sleep(5) 
 
-    # Find all span elements with the class "feature"
+   
     span_elements = driver.find_elements(By.CLASS_NAME, "feature")
 
-    # Define patterns to extract specific fields
+    
     patterns = {
         'mRNA': re.compile(r'mRNA\s+join\(([\d.,\s]+)\)\s+.+/product="([^"]+)"', re.DOTALL),
         'source': re.compile(r'source\s+(\d+\.\.\d+)\s+(.+)', re.DOTALL),
@@ -40,7 +40,7 @@ def fetch_genbank_data(accession_id):
         'CDS': re.compile(r'CDS\s+join\(([\d.,]+)\)\s+(.+)', re.DOTALL)
     }
 
-    # Dictionary to store the extracted information
+   
     extracted_info = {
         'source': None,
         'gene': None,
@@ -48,7 +48,6 @@ def fetch_genbank_data(accession_id):
         'CDS': None
     }
 
-    # Extract and process text from each span element
     for span in span_elements:
         text_content = span.text
         for key, pattern in patterns.items():
@@ -74,11 +73,11 @@ def fetch_genbank_data(accession_id):
                         'details': match.group(2).replace('/', '').replace('\n', '').strip()
                     }
 
-    # Extract gene information from the 'pre' tag
+#scraping
     gene_info = driver.find_element(By.TAG_NAME, 'pre')
     gene_text = gene_info.text
 
-    # Define patterns for gene information
+
     gene_patterns = {
         'locus': re.compile(r'LOCUS\s+(.+)'),
         'definition': re.compile(r'DEFINITION\s+(.+)'),
@@ -88,7 +87,7 @@ def fetch_genbank_data(accession_id):
         'organism': re.compile(r'organism="([^"]+)"')
     }
 
-    # Extract gene information
+    #Extract gene information
     gene_data = {}
     for key, pattern in gene_patterns.items():
         match = pattern.search(gene_text)
@@ -97,12 +96,12 @@ def fetch_genbank_data(accession_id):
 
     driver.quit()
     
-    # URL template for GenBank entry
+    
     url = f'https://www.ncbi.nlm.nih.gov/nuccore/{accession_id}'
     response = requests.get(url)
     soup = BeautifulSoup(response.content, 'html.parser')
 
-    # Extract the title of the page
+ #trying beautifulsoup
     features = soup.find('div', class_="content")
     for f in features:
         a = soup.find('div', class_="rprtheader")
