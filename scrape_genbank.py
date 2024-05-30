@@ -37,7 +37,7 @@ def fetch_genbank_data(accession_id):
         'mRNA': re.compile(r'mRNA\s+join\(([\d.,\s]+)\)\s+.+/product="([^"]+)"', re.DOTALL),
         'source': re.compile(r'source\s+(\d+\.\.\d+)\s+(.+)', re.DOTALL),
         'gene': re.compile(r'gene\s+(\d+\.\.\d+)\s+(/gene="[^"])'),
-        'CDS': re.compile(r'CDS\s+join\(([\d.,]+)\)\s+(.+)', re.DOTALL)
+        'CDS': re.compile(r'CDS\s+(?:join\()?([\d.,]+)\)?\s+(.+)', re.DOTALL)
     }
 
    
@@ -110,7 +110,7 @@ def fetch_genbank_data(accession_id):
     return gene_data, extracted_info, b.text
 
 if __name__ == "__main__":
-    accession_id = "AF359939.1"
+    accession_id = "NM_001101.5"
     gene_data, extracted_info, title = fetch_genbank_data(accession_id)
     print("Source and definition:", title)
     print(title)
